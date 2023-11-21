@@ -1,0 +1,5 @@
+data/*/*.json
+data/*.gmpc
+data/*.json
+*.json
+target

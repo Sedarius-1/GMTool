@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="1200.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rpg.gmtool.HelloController">
+
+
+
+    <MenuBar VBox.vgrow="NEVER">
+        <Menu mnemonicParsing="false" text="Mode">
+            <MenuItem mnemonicParsing="false" text="THIS" />
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+            <MenuItem mnemonicParsing="false" text="About" />
+        </Menu>
+    </MenuBar>
+    <AnchorPane prefHeight="1140.0" prefWidth="1920.0" VBox.vgrow="ALWAYS">
+        <Label alignment="CENTER" style="&#10;" text="PLAYER CHARACTERS DESCRIPTION" textAlignment="CENTER" AnchorPane.leftAnchor="750.0" AnchorPane.topAnchor="0.0">
+            <font>
+                <Font name="Consolas" size="25.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER" layoutX="68.0" layoutY="166.0" style="&#10;" text="PLAYER CHARACTERS DESCRIPTION" textAlignment="CENTER" AnchorPane.leftAnchor="68.0" AnchorPane.topAnchor="166.0">
+            <font>
+                <Font name="Consolas" size="10.0" />
+            </font>
+        </Label>
+        <TextArea fx:id="PCDescArea" layoutX="250.0" layoutY="161.0" prefHeight="174.0" prefWidth="444.0" />
+        <Button fx:id="ChangeFileButton" layoutX="64.0" layoutY="368.0" onAction="#onHelloButtonClick" prefHeight="26.0" prefWidth="176.0" text="Load next character" />
+      <ListView fx:id="PCStats" layoutX="905.0" layoutY="52.0" prefHeight="257.0" prefWidth="309.0" />
+      <Text layoutX="75.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Character name" />
+      <TextField fx:id="PCName" layoutX="250.0" layoutY="48.0" prefHeight="26.0" prefWidth="444.0" />
+      <TextField fx:id="PCClass" layoutX="250.0" layoutY="108.0" prefHeight="26.0" prefWidth="444.0" />
+      <ListView fx:id="PCEquipment" layoutX="905.0" layoutY="335.0" prefHeight="264.0" prefWidth="309.0" />
+      <Text layoutX="75.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Character description" />
+      <Text layoutX="742.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stats" />
+      <Text layoutX="739.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Equipment" />
+      <ListView fx:id="PCCharacters" layoutX="1249.0" layoutY="87.0" prefHeight="257.0" prefWidth="309.0" />
+      <Text layoutX="1249.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Characters" />
+      <Button fx:id="PCSaveCharacter" layoutX="250.0" layoutY="368.0" onAction="#onHelloButtonClick" prefHeight="26.0" prefWidth="176.0" text="Save character" />
+      <Text layoutX="207.0" layoutY="623.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
+      <TextArea fx:id="PCEquipmentDescription" layoutX="204.0" layoutY="644.0" prefHeight="346.0" prefWidth="1348.0" />
+        
+     </AnchorPane>
+
+</VBox>
