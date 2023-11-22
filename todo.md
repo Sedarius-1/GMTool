@@ -8,7 +8,7 @@
 - [ ] GM notes as a list
 - [ ] Events pane
 - [ ] Session pane
-- [ ] Improve weapon description
+- [ ] Improve item description
 - [ ] Add talents/feats
 - [ ] Add slot for money
 - [ ] Improve layout

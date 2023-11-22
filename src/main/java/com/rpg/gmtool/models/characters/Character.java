@@ -1,4 +1,4 @@
-package com.rpg.gmtool.models.Characters;
+package com.rpg.gmtool.models.characters;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +15,6 @@ public class Character {
     private String name;
     private String rpgRole;
     private String description;
-    private List<String> stats;
+    private List<Statistic> stats;
     private List<String> equipment;
 }

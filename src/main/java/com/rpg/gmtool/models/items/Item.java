@@ -1,9 +1,10 @@
-package com.rpg.gmtool.models.Weapons;
+package com.rpg.gmtool.models.items;
 
 import lombok.Data;
 
 @Data
-public class Weapon {
+public class Item {
+    private String name;
     private Long price;
     private String availability;
     private String description;
