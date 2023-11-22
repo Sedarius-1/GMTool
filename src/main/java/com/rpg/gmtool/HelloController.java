@@ -1,9 +1,9 @@
 package com.rpg.gmtool;
 
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rpg.gmtool.Exceptions.CharacterLoadingException;
+import com.rpg.gmtool.exceptions.CharacterLoadingException;
 import com.rpg.gmtool.models.Characters.Character;
+import com.rpg.gmtool.models.Systems.System;
 import com.rpg.gmtool.models.Weapons.Weapon;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,7 +21,6 @@ import java.util.*;
 public class HelloController implements Initializable {
     public TextArea PCDescArea;
     public Label PCDataTitle;
-    public Button ChangeFileButton;
     public TextField PCName;
     public TextField PCClass;
     public ListView PCStats;
@@ -29,6 +28,9 @@ public class HelloController implements Initializable {
     public ListView PCCharacters;
     public Button PCSaveCharacter;
     public TextArea PCEquipmentDescription;
+    public Button PCRemoveStat;
+    public Button PCSaveStat;
+    public ComboBox PCAvailableStatList;
     @FXML
     private Label welcomeText;
 
@@ -56,6 +58,18 @@ public class HelloController implements Initializable {
         PCDescArea.setText(null);
         PCStats.setItems(null);
         PCEquipment.setItems(null);
+
+    }
+
+
+    @FXML
+    protected System getStatListForSelectedSystem(String systemFileName, ObjectMapper mapper) {
+        try {
+            return mapper.readValue(new File("data/systems/" + systemFileName + ".json"), System.class);
+
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
 
     }
 
@@ -87,6 +101,8 @@ public class HelloController implements Initializable {
         } catch (CharacterLoadingException e) {
             throw new RuntimeException(e);
         }
+        System selectedSystem = getStatListForSelectedSystem("darkHeresy", mapper);
+        PCAvailableStatList.setItems(FXCollections.observableList(selectedSystem.getAvailableStats()));
         PCEquipment.setEditable(true);
         PCEquipment.setCellFactory(TextFieldListCell.forListView());
         PCStats.setEditable(true);
@@ -123,10 +139,6 @@ public class HelloController implements Initializable {
                         }
                     }
                 });
-        ChangeFileButton.setOnAction(ActionEvent -> {
-
-
-        });
 
         PCSaveCharacter.setOnAction(ActionEvent -> {
             Character character = new Character();

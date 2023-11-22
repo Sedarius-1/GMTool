@@ -11,5 +11,6 @@ module com.rpg.gmtool {
     exports com.rpg.gmtool;
     exports com.rpg.gmtool.models.Characters;
     exports com.rpg.gmtool.models.Weapons;
+    exports com.rpg.gmtool.models.Systems;
 
 }
