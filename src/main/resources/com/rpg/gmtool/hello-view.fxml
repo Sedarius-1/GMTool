@@ -27,22 +27,24 @@
                 <Font name="Consolas" size="10.0" />
             </font>
         </Label>
-        <TextArea fx:id="PCDescArea" layoutX="250.0" layoutY="161.0" prefHeight="174.0" prefWidth="444.0" />
+        <TextArea fx:id="PCDescArea" layoutX="250.0" layoutY="161.0" prefHeight="148.0" prefWidth="444.0" />
         <Button fx:id="ChangeFileButton" layoutX="64.0" layoutY="368.0" onAction="#onHelloButtonClick" prefHeight="26.0" prefWidth="176.0" text="Load next character" />
-      <ListView fx:id="PCStats" layoutX="905.0" layoutY="52.0" prefHeight="257.0" prefWidth="309.0" />
+      <ListView fx:id="PCStats" layoutX="859.0" layoutY="79.0" prefHeight="248.0" prefWidth="309.0" />
       <Text layoutX="75.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Character name" />
       <TextField fx:id="PCName" layoutX="250.0" layoutY="48.0" prefHeight="26.0" prefWidth="444.0" />
       <TextField fx:id="PCClass" layoutX="250.0" layoutY="108.0" prefHeight="26.0" prefWidth="444.0" />
-      <ListView fx:id="PCEquipment" layoutX="905.0" layoutY="335.0" prefHeight="264.0" prefWidth="309.0" />
+      <ListView fx:id="PCEquipment" layoutX="1194.0" layoutY="79.0" prefHeight="248.0" prefWidth="309.0" />
       <Text layoutX="75.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Character description" />
-      <Text layoutX="742.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stats" />
-      <Text layoutX="739.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Equipment" />
-      <ListView fx:id="PCCharacters" layoutX="1249.0" layoutY="87.0" prefHeight="257.0" prefWidth="309.0" />
-      <Text layoutX="1249.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Characters" />
+      <Text layoutX="998.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stats" />
+      <Text layoutX="1315.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Equipment" />
+      <ListView fx:id="PCCharacters" layoutX="1578.0" layoutY="57.0" prefHeight="736.0" prefWidth="309.0" />
+      <Text layoutX="1680.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Characters" />
       <Button fx:id="PCSaveCharacter" layoutX="250.0" layoutY="368.0" onAction="#onHelloButtonClick" prefHeight="26.0" prefWidth="176.0" text="Save character" />
       <Text layoutX="207.0" layoutY="623.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
       <TextArea fx:id="PCEquipmentDescription" layoutX="204.0" layoutY="644.0" prefHeight="346.0" prefWidth="1348.0" />
-        
+      <ListView fx:id="PCStats1" layoutX="859.0" layoutY="368.0" prefHeight="248.0" prefWidth="309.0" />
+      <Text layoutX="998.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Talents" />
+
      </AnchorPane>
 
 </VBox>

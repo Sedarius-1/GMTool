@@ -1,6 +1,8 @@
 package com.rpg.gmtool;
 
+import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rpg.gmtool.Exceptions.CharacterLoadingException;
 import com.rpg.gmtool.models.Characters.Character;
 import com.rpg.gmtool.models.Weapons.Weapon;
 import javafx.beans.value.ChangeListener;
@@ -36,7 +38,7 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    protected void setupPCData(Character character){
+    protected void setupPCData(Character character) {
 
         PCName.setText(character.getName());
         PCClass.setText(character.getRpgRole());
@@ -46,57 +48,49 @@ public class HelloController implements Initializable {
 
     }
 
-    private static List<String> getParsedStatsValues(String[] rawData) {
-        List<String> stats = new ArrayList<>(List.of("Weapon Skill (WS)", "Ballistic Skill (WS)",
-                "Strength (Str)",
-                "Toughness (T)",
-                "Agility (Ag)",
-                "Intelligence (Int)",
-                "Perception (Per)",
-                "Will Power (WP)",
-                "Fellowship (Fel)"));
-        String[] statsValues =String.valueOf(rawData[3]).split("`");
-        for(int i=0;i<statsValues.length;i++){
-            if(!Objects.isNull(statsValues[i])){
-                stats.set(i, stats.get(i) +" "+ statsValues[i]);
-            }
-            else{
-                stats.set(i, stats.get(i) + " NO VALUE");
-            }
+    @FXML
+    protected void clearPCData() {
 
-        }
-        if(statsValues.length!=stats.size()){
-            for(int i=statsValues.length;i<stats.size();i++){
-                    stats.set(i, stats.get(i) + " NO VALUE");
-            }
-        }
+        PCName.setText(null);
+        PCClass.setText(null);
+        PCDescArea.setText(null);
+        PCStats.setItems(null);
+        PCEquipment.setItems(null);
 
-        return stats;
     }
 
     @FXML
-    private void refreshFileList(){
-        File repo = new File ("data");
+    private void refreshFileList() throws CharacterLoadingException {
+        File repo = new File("data");
         List<String> fileNameList = new ArrayList<>();
         File[] fileList = repo.listFiles();
-        for (int i = 0; i< Objects.requireNonNull(fileList).length; i++) {
-            if(Objects.equals(fileList[i].getName().substring(fileList[i].getName().length()-5), ".json")){
-                fileNameList.add(fileList[i].getName());
+        for (int i = 0; i < Objects.requireNonNull(fileList).length; i++) {
+            if (Objects.equals(fileList[i].getName().substring(fileList[i].getName().length() - 5), ".json")) {
+                try {
+                    fileNameList.add(fileList[i].getName());
+                } catch (Exception e) {
+                    throw new CharacterLoadingException(e.toString());
+                }
             }
 
         }
         PCCharacters.setItems(FXCollections.observableList(fileNameList));
     }
-    
+
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         ObjectMapper mapper = new ObjectMapper();
 
-        refreshFileList();
+        try {
+            refreshFileList();
+        } catch (CharacterLoadingException e) {
+            throw new RuntimeException(e);
+        }
         PCEquipment.setEditable(true);
         PCEquipment.setCellFactory(TextFieldListCell.forListView());
         PCStats.setEditable(true);
+        PCDescArea.setWrapText(true);
         PCStats.setCellFactory(TextFieldListCell.forListView());
         PCCharacters.getSelectionModel().selectedItemProperty().addListener(
                 new ChangeListener<String>() {
@@ -104,10 +98,14 @@ public class HelloController implements Initializable {
                                         String old_val, String new_val) {
 
                         try {
-                            Character character = mapper.readValue(new File("data/"+PCCharacters.getSelectionModel().getSelectedItem().toString()), Character.class);
+                            clearPCData();
+                            PCDescArea.setStyle("-fx-text-fill: black;");
+                            Character character = mapper.readValue(new File("data/" + PCCharacters.getSelectionModel().getSelectedItem().toString()), Character.class);
                             setupPCData(character);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+                        } catch (Exception e) {
+                            PCDescArea.setText(e.toString());
+
+                            PCDescArea.setStyle("-fx-text-fill: red;");
                         }
                     }
                 });
@@ -118,34 +116,14 @@ public class HelloController implements Initializable {
                                         String old_val, String new_val) {
 
                         try {
-                            Weapon weapon = mapper.readValue(new File("data/equipment/"+PCEquipment.getSelectionModel().getSelectedItem().toString()+".json"), Weapon.class);
+                            Weapon weapon = mapper.readValue(new File("data/equipment/" + PCEquipment.getSelectionModel().getSelectedItem().toString() + ".json"), Weapon.class);
                             PCEquipmentDescription.setText(weapon.toString());
                         } catch (IOException e) {
                             PCEquipmentDescription.setText("No desc for selected item yet :<");
                         }
                     }
                 });
-        PCDescArea.setEditable(false);
         ChangeFileButton.setOnAction(ActionEvent -> {
-//            StringBuilder characterData = new StringBuilder();
-//            File file = new File("data/test.gmpc");
-//            try (Scanner myReader = new Scanner(file)){
-//                while(myReader.hasNextLine()){
-//                    String line = myReader.nextLine();
-//                    characterData.append(line);
-//                }
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            String[] characterDataRead = characterData.toString().split("&");
-//
-//            setupPCData(characterDataRead);
-
-            try {
-                mapper.writeValue(new File("character.json"), new Character("a", "a", "b", Arrays.asList("uwu", "uwuwu"), Arrays.asList("uwu", "uwuwu","wuwu")));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
 
 
         });
@@ -158,9 +136,9 @@ public class HelloController implements Initializable {
             character.setStats(PCStats.getItems().stream().toList());
             character.setEquipment(PCEquipment.getItems().stream().toList());
             try {
-                mapper.writeValue(new File("data/"+character.getName()+".json"), character);
+                mapper.writeValue(new File("data/" + character.getName() + ".json"), character);
                 refreshFileList();
-            } catch (IOException e) {
+            } catch (IOException | CharacterLoadingException e) {
                 throw new RuntimeException(e);
             }
         });

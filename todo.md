@@ -1,0 +1,17 @@
+- [x] Character parsing error handling
+- [ ] Add/remove stats
+- [ ] Add/remove equipment items
+- [ ] Add/remove talents
+- [ ] Empty character initialization
+- [ ] Add different panes for NPC AND PC
+- [ ] Dice simulator
+- [ ] GM notes as a list
+- [ ] Events pane
+- [ ] Session pane
+- [ ] Improve weapon description
+- [ ] Add talents/feats
+- [ ] Add slot for money
+- [ ] Improve layout
+- [ ] Import/export session as zip file
+- [ ] More universal data handling
+- [ ] Add themes
