@@ -52,14 +52,14 @@
           <TableColumn fx:id="PCStatValue" prefWidth="61.0" text="Value" />
         </columns>
       </TableView>
-      <Text fx:id="PCUnsaved" layoutX="1194.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="288.16100311279297" />
+      <Text fx:id="PCUnsaved" layoutX="56.0" layoutY="645.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="288.16100311279297" />
       <Text layoutX="68.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
       <Text layoutX="143.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informations" />
-      <TableView fx:id="PCTalents" layoutX="997.0" layoutY="74.0" prefHeight="200.0" prefWidth="316.0">
+      <TableView fx:id="PCTalents" layoutX="960.0" layoutY="53.0" prefHeight="200.0" prefWidth="340.0">
          <columns>
             <TableColumn fx:id="PCTalentName" prefWidth="138.0" text="Ability" />
-            <TableColumn fx:id="PCTalentStat" prefWidth="41.0" text="Stat" />
-            <TableColumn fx:id="PCTalentProficiency" prefWidth="163.0" text="Proficiency" />
+            <TableColumn fx:id="PCTalentStat" minWidth="0.0" prefWidth="53.0" text="Stat" />
+            <TableColumn fx:id="PCTalentProficiency" prefWidth="151.0" text="Proficiency" />
          </columns>
       </TableView>
       <TextField fx:id="PCTalentNameInput" layoutX="733.0" layoutY="78.0" prefHeight="26.0" prefWidth="150.0" />

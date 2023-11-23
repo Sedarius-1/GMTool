@@ -16,5 +16,6 @@ public class Character {
     private String rpgRole;
     private String description;
     private List<Statistic> stats;
+    private List<Talent> talents;
     private List<String> equipment;
 }

@@ -68,31 +68,33 @@ public class PCController implements Initializable {
         }
     }
 
-    private void initializeCampaign(){
-        try{
+    private void initializeCampaign() {
+        try {
             campaign = mapper.readValue(new File(currentConfigFile), Campaign.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void fetchCharactersList(){
+    private void fetchCharactersList() {
         try {
             refreshCharacterList();
         } catch (CharacterLoadingException e) {
             throw new RuntimeException(e);
         }
     }
-    private void initailizePCScreenObjects(){
+
+    private void initailizePCScreenObjects() {
         PCStats.setEditable(true);
         PCStatName.setCellValueFactory(new PropertyValueFactory<>("name"));
         PCStatValue.setCellValueFactory(new PropertyValueFactory<>("value"));
-        PCStatValue.setCellFactory( TextFieldTableCell.forTableColumn());
+        PCStatValue.setCellFactory(TextFieldTableCell.forTableColumn());
         System selectedSystem = getStatListForSelectedSystem(campaign.getSystemCodeName(), mapper);
         PCAvailableStatList.setItems(FXCollections.observableList(selectedSystem.getAvailableStats()));
         PCTalentName.setCellValueFactory(new PropertyValueFactory<>("name"));
         PCTalentStat.setCellValueFactory(new PropertyValueFactory<>("stat"));
         PCTalentProficiency.setCellValueFactory(new PropertyValueFactory<>("proficiency"));
+        PCTalentProficiencyInput.setItems(FXCollections.observableList(selectedSystem.getAvailableProficiencies()));
         PCTalentStatInput.setItems(FXCollections.observableList(selectedSystem.getAvailableStats()));
         PCEquipment.setEditable(true);
         PCEquipment.setCellFactory(TextFieldListCell.forListView());
@@ -104,24 +106,25 @@ public class PCController implements Initializable {
     //<editor-fold desc="DATA REFRESHING">
 
     @FXML
-    private void setPCUnsaved(){
+    private void setPCUnsaved() {
         wasEdited = true;
         PCUnsaved.setFill(Color.RED);
         PCUnsaved.setText(UNSAVED_CHANGES);
     }
 
     @FXML
-    private void unsetPCUnsaved(){
+    private void unsetPCUnsaved() {
         wasEdited = false;
         PCUnsaved.setText(" ");
 
     }
+
     @FXML
     private void refreshCharacterList() throws CharacterLoadingException {
-        File repo = new File(campaignLocations+ campaign.getCampaignName()+"/characters");
+        File repo = new File(campaignLocations + campaign.getCampaignName() + "/characters");
         List<String> fileNameList = new ArrayList<>();
         File[] fileList = repo.listFiles();
-        if(!Objects.isNull(fileList)){
+        if (!Objects.isNull(fileList)) {
             for (int i = 0; i < Objects.requireNonNull(fileList).length; i++) {
                 if (Objects.equals(fileList[i].getName().substring(fileList[i].getName().length() - 5), ".json")) {
                     try {
@@ -139,6 +142,11 @@ public class PCController implements Initializable {
     private void refreshStatList() {
         PCStats.setItems(FXCollections.observableList(currentCharacter.getStats()));
     }
+    @FXML
+    private void refreshTalentList() {
+        PCTalents.setItems(FXCollections.observableList(currentCharacter.getTalents()));
+    }
+
     //</editor-fold>
     //<editor-fold desc="PC DATA MANIPULATION">
     @FXML
@@ -163,21 +171,22 @@ public class PCController implements Initializable {
         PCEquipment.setItems(null);
 
     }
-    private void fetchSelectedCharacter(MultipleSelectionModel<String> multipleSelectionModel){
+
+    private void fetchSelectedCharacter(MultipleSelectionModel<String> multipleSelectionModel) {
         try {
             clearPCData();
-            unsetPCUnsaved();
             PCDescArea.setStyle("-fx-text-fill: black;");
-            Character character = mapper.readValue(new File(campaignLocations+ campaign.getCampaignName()+"/characters/" + multipleSelectionModel.getSelectedItem()), Character.class);
+            Character character = mapper.readValue(new File(campaignLocations + campaign.getCampaignName() + "/characters/" + multipleSelectionModel.getSelectedItem()), Character.class);
             setupPCData(character);
             currentCharacter = character;
+            unsetPCUnsaved();
         } catch (Exception e) {
             PCDescArea.setText(e.toString());
             PCDescArea.setStyle("-fx-text-fill: red;");
         }
     }
 
-    private void fetchSelectedItem(MultipleSelectionModel<String> multipleSelectionModel){
+    private void fetchSelectedItem(MultipleSelectionModel<String> multipleSelectionModel) {
         try {
             Item item = mapper.readValue(new File("data/equipment/" + multipleSelectionModel.getSelectedItem() + ".json"), Item.class);
             PCEquipmentDescription.setText(item.toString());
@@ -190,39 +199,57 @@ public class PCController implements Initializable {
     //<editor-fold desc="BUTTON HANDLING">
 
     @FXML
-    private void saveStat(){
-        try{
+    private void saveStat() {
+        try {
             Long statValue = Long.valueOf(PCInputStatValue.getText());
             Statistic statistic = new Statistic(PCAvailableStatList.getValue().toString(), String.valueOf(statValue));
-            if(currentCharacter.getStats().stream().filter(stat -> Objects.equals(stat.getName(),PCAvailableStatList.getValue())).findFirst().isEmpty()){
+            if (currentCharacter.getStats().stream().filter(stat -> Objects.equals(stat.getName(), PCAvailableStatList.getValue().toString())).findFirst().isEmpty()) {
                 currentCharacter.getStats().add(statistic);
                 refreshStatList();
                 setPCUnsaved();
-            }
-            else{
+            } else {
                 PCDescArea.setText("THIS STAT IS ALREADY ADDED");
+                unsetPCUnsaved();
             }
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             PCDescArea.setText("STAT VALUE MUST BE NUMERIC");
+            unsetPCUnsaved();
         }
     }
+
     @FXML
-    private void savePC(){
+    private void saveTalent() {
+        Talent talent = new Talent(PCTalentNameInput.getText(), PCTalentStatInput.getValue().getShorthand(), PCTalentProficiencyInput.getValue());
+        if( Objects.nonNull(currentCharacter.getTalents())){
+            Optional<Talent> potentialTalentToBeReplaced = currentCharacter.getTalents().stream().filter(talentIter -> Objects.equals(talentIter.getName(), PCTalentNameInput.getText())).findFirst();
+            potentialTalentToBeReplaced.ifPresent(value -> currentCharacter.getTalents().remove(value));
+        }
+        currentCharacter.getTalents().add(talent);
+        refreshTalentList();
+        setPCUnsaved();
+
+
+    }
+
+    @FXML
+    private void savePC() {
         Character character = new Character();
         character.setName(PCName.getText());
         character.setRpgRole(PCClass.getText());
         character.setDescription(PCDescArea.getText());
         character.setStats(PCStats.getItems().stream().toList());
+        character.setTalents(PCTalents.getItems().stream().toList());
         character.setEquipment(PCEquipment.getItems().stream().toList());
         try {
-            mapper.writeValue(new File(campaignLocations+ campaign.getCampaignName()+"/characters/" + character.getName() + ".json"), character);
+            mapper.writeValue(new File(campaignLocations + campaign.getCampaignName() + "/characters/" + character.getName() + ".json"), character);
             refreshCharacterList();
             unsetPCUnsaved();
         } catch (IOException | CharacterLoadingException e) {
             throw new RuntimeException(e);
         }
     }
+
     // </editor-fold>
     @Override
 
@@ -232,15 +259,17 @@ public class PCController implements Initializable {
         fetchCharactersList();
         initailizePCScreenObjects();
         PCCharacters.getSelectionModel().selectedItemProperty().addListener(
-                (ov, old_val, new_val) -> fetchSelectedCharacter( PCCharacters.getSelectionModel()));
+                (ov, old_val, new_val) -> fetchSelectedCharacter(PCCharacters.getSelectionModel()));
 
         PCEquipment.getSelectionModel().selectedItemProperty().addListener(
-                (ov, old_val, new_val) -> fetchSelectedItem( PCEquipment.getSelectionModel()));
-        PCName.textProperty().addListener( (ov, old_val, new_val) -> setPCUnsaved());
-        PCClass.textProperty().addListener( (ov, old_val, new_val) -> setPCUnsaved());
-        PCDescArea.textProperty().addListener( (ov, old_val, new_val) -> setPCUnsaved());
+                (ov, old_val, new_val) -> fetchSelectedItem(PCEquipment.getSelectionModel()));
+        PCName.textProperty().addListener((ov, old_val, new_val) -> setPCUnsaved());
+        PCClass.textProperty().addListener((ov, old_val, new_val) -> setPCUnsaved());
+        PCDescArea.textProperty().addListener((ov, old_val, new_val) -> setPCUnsaved());
         PCStatValue.setOnEditCommit(event -> setPCUnsaved());
         PCSaveCharacter.setOnAction(ActionEvent -> savePC());
         PCSaveStat.setOnAction(ActionEvent -> saveStat());
+        PCSaveTalent.setOnAction(ActionEvent -> saveTalent());
+
     }
 }
