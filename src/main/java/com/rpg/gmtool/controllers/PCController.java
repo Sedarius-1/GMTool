@@ -6,15 +6,17 @@ import com.rpg.gmtool.exceptions.CharacterLoadingException;
 import com.rpg.gmtool.models.characters.Character;
 import com.rpg.gmtool.models.characters.Statistic;
 import com.rpg.gmtool.models.characters.Talent;
+import com.rpg.gmtool.models.items.Armour;
 import com.rpg.gmtool.models.items.Item;
+import com.rpg.gmtool.models.items.Weapon;
 import com.rpg.gmtool.models.systems.System;
 import com.rpg.gmtool.models.systems.SystemStatistic;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -34,10 +36,8 @@ public class PCController implements Initializable {
     public TableView<Statistic> PCStats;
     public TableColumn<Statistic, String> PCStatName;
     public TableColumn<Statistic, String> PCStatValue;
-    public ListView<String> PCEquipment;
     public ListView<String> PCCharacters;
     public Button PCSaveCharacter;
-    public TextArea PCEquipmentDescription;
     public Button PCRemoveStat;
     public Button PCSaveStat;
     public ComboBox<SystemStatistic> PCAvailableStatList;
@@ -51,12 +51,26 @@ public class PCController implements Initializable {
     public ComboBox<SystemStatistic> PCTalentStatInput;
     public ComboBox<String> PCTalentProficiencyInput;
     public Button PCSaveTalent;
+    public TextArea PCItemDescription;
+    public ComboBox<Item> PCItemList;
+    public TableView<? extends Item> PCEquipment;
+    public TextField PCItemName;
+    public TextField PCItemPrice;
+    public TextField PCItemAvailability;
+    public TextField PCWeaponDamage;
+    public TextField PCWeaponRange;
+    public TextField PCWeaponType;
+    public TextField PCArmourBodyPart;
+    public TextField PCArmourProtectionValue;
+    public CheckBox PCArmourWorn;
+    public Button PCSaveItem;
     private Campaign campaign;
     private Character currentCharacter;
     private final ObjectMapper mapper = getObjectMapper();
     private boolean wasEdited = false;
 
     private final String UNSAVED_CHANGES = "YOU HAVE UNSAVED CHANGES HERE!";
+
     //</editor-fold>
     //<editor-fold desc="INITIALIZATION">
     @FXML
@@ -84,6 +98,36 @@ public class PCController implements Initializable {
         }
     }
 
+    @FXML
+    protected List<Item> getItemsList() throws CharacterLoadingException {
+        File repo = new File(equipmentLocations + campaign.getSystemCodeName() + "/");
+        List<Item> itemList = new ArrayList<>();
+        File[] fileList = repo.listFiles();
+        if (!Objects.isNull(fileList)) {
+            for (int i = 0; i < Objects.requireNonNull(fileList).length; i++) {
+                if (Objects.equals(fileList[i].getName().substring(fileList[i].getName().length() - 5), ".json")) {
+                    try {
+                        switch(fileList[i].getName().charAt(0)){
+                            case 'i':
+                                itemList.add(mapper.readValue(new File(equipmentLocations + campaign.getSystemCodeName() + "/" + fileList[i].getName()), Item.class));
+                                break;
+                            case 'w':
+                                itemList.add(mapper.readValue(new File(equipmentLocations + campaign.getSystemCodeName() + "/" + fileList[i].getName()), Weapon.class));
+                                break;
+                            case 'a':
+                                itemList.add(mapper.readValue(new File(equipmentLocations + campaign.getSystemCodeName() + "/" + fileList[i].getName()), Armour.class));
+                                break;
+                        }
+
+                    } catch (Exception e) {
+                        throw new CharacterLoadingException(e.toString());
+                    }
+                }
+            }
+        }
+        return itemList;
+    }
+
     private void initailizePCScreenObjects() {
         PCStats.setEditable(true);
         PCStatName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -96,9 +140,13 @@ public class PCController implements Initializable {
         PCTalentProficiency.setCellValueFactory(new PropertyValueFactory<>("proficiency"));
         PCTalentProficiencyInput.setItems(FXCollections.observableList(selectedSystem.getAvailableProficiencies()));
         PCTalentStatInput.setItems(FXCollections.observableList(selectedSystem.getAvailableStats()));
-        PCEquipment.setEditable(true);
-        PCEquipment.setCellFactory(TextFieldListCell.forListView());
         PCDescArea.setWrapText(true);
+        try {
+            PCItemList.setItems(FXCollections.observableList(getItemsList()));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+
 
     }
 
@@ -142,6 +190,7 @@ public class PCController implements Initializable {
     private void refreshStatList() {
         PCStats.setItems(FXCollections.observableList(currentCharacter.getStats()));
     }
+
     @FXML
     private void refreshTalentList() {
         PCTalents.setItems(FXCollections.observableList(currentCharacter.getTalents()));
@@ -156,8 +205,17 @@ public class PCController implements Initializable {
         PCName.setText(character.getName());
         PCClass.setText(character.getRpgRole());
         PCDescArea.setText(character.getDescription());
+        if (Objects.isNull(character.getStats())) {
+            character.setStats(new ArrayList<>());
+        }
         PCStats.setItems(FXCollections.observableList(character.getStats()));
-        PCEquipment.setItems(FXCollections.observableList(character.getEquipment()));
+        if (Objects.isNull(character.getTalents())) {
+            character.setTalents(new ArrayList<>());
+        }
+        PCTalents.setItems(FXCollections.observableList(character.getTalents()));
+        if (Objects.isNull(character.getEquipment())) {
+            character.setEquipment(new ArrayList<>());
+        }
 
     }
 
@@ -168,7 +226,22 @@ public class PCController implements Initializable {
         PCClass.setText(null);
         PCDescArea.setText(null);
         PCStats.setItems(null);
-        PCEquipment.setItems(null);
+
+    }
+
+    @FXML
+    protected void clearItemData() {
+
+        PCItemName.setText(null);
+        PCItemPrice.setText(null);
+        PCItemAvailability.setText(null);
+        PCItemDescription.setText(null);
+        PCWeaponDamage.setText(null);
+        PCWeaponRange.setText(null);
+        PCWeaponType.setText(null);
+        PCArmourBodyPart.setText(null);
+        PCArmourProtectionValue.setText(null);
+        PCArmourWorn.setSelected(false);
 
     }
 
@@ -186,13 +259,28 @@ public class PCController implements Initializable {
         }
     }
 
-    private void fetchSelectedItem(MultipleSelectionModel<String> multipleSelectionModel) {
-        try {
-            Item item = mapper.readValue(new File("data/equipment/" + multipleSelectionModel.getSelectedItem() + ".json"), Item.class);
-            PCEquipmentDescription.setText(item.toString());
-        } catch (IOException e) {
-            PCEquipmentDescription.setText("No desc for selected item yet :<");
+    private void fetchSelectedItem(SingleSelectionModel<? extends Item> singleSelectionModel) {
+        clearItemData();
+        PCItemName.setText(singleSelectionModel.getSelectedItem().getName());
+        PCItemPrice.setText(singleSelectionModel.getSelectedItem().getPrice());
+        PCItemAvailability.setText(singleSelectionModel.getSelectedItem().getAvailability());
+        PCItemDescription.setText(singleSelectionModel.getSelectedItem().getDescription());
+        switch(singleSelectionModel.getSelectedItem().getType()){
+            case "weapon":
+                Weapon weapon = (Weapon) singleSelectionModel.getSelectedItem();
+                PCWeaponDamage.setText(weapon.getDamage());
+                PCWeaponRange.setText(weapon.getRange());
+                PCWeaponType.setText(weapon.getWeaponType());
+                break;
+            case "armour":
+                Armour armour = (Armour) singleSelectionModel.getSelectedItem();
+                PCArmourBodyPart.setText(armour.getBodypart());
+                PCArmourProtectionValue.setText(armour.getProtection());
+                break;
+            case "item":
+                break;
         }
+
     }
     // </editor-fold>
 
@@ -221,7 +309,21 @@ public class PCController implements Initializable {
     @FXML
     private void saveTalent() {
         Talent talent = new Talent(PCTalentNameInput.getText(), PCTalentStatInput.getValue().getShorthand(), PCTalentProficiencyInput.getValue());
-        if( Objects.nonNull(currentCharacter.getTalents())){
+        if (Objects.nonNull(currentCharacter.getTalents())) {
+            Optional<Talent> potentialTalentToBeReplaced = currentCharacter.getTalents().stream().filter(talentIter -> Objects.equals(talentIter.getName(), PCTalentNameInput.getText())).findFirst();
+            potentialTalentToBeReplaced.ifPresent(value -> currentCharacter.getTalents().remove(value));
+        }
+        currentCharacter.getTalents().add(talent);
+        refreshTalentList();
+        setPCUnsaved();
+
+
+    }
+
+    @FXML
+    private void saveItem() {
+        Talent talent = new Talent(PCTalentNameInput.getText(), PCTalentStatInput.getValue().getShorthand(), PCTalentProficiencyInput.getValue());
+        if (Objects.nonNull(currentCharacter.getTalents())) {
             Optional<Talent> potentialTalentToBeReplaced = currentCharacter.getTalents().stream().filter(talentIter -> Objects.equals(talentIter.getName(), PCTalentNameInput.getText())).findFirst();
             potentialTalentToBeReplaced.ifPresent(value -> currentCharacter.getTalents().remove(value));
         }
@@ -240,7 +342,6 @@ public class PCController implements Initializable {
         character.setDescription(PCDescArea.getText());
         character.setStats(PCStats.getItems().stream().toList());
         character.setTalents(PCTalents.getItems().stream().toList());
-        character.setEquipment(PCEquipment.getItems().stream().toList());
         try {
             mapper.writeValue(new File(campaignLocations + campaign.getCampaignName() + "/characters/" + character.getName() + ".json"), character);
             refreshCharacterList();
@@ -261,8 +362,8 @@ public class PCController implements Initializable {
         PCCharacters.getSelectionModel().selectedItemProperty().addListener(
                 (ov, old_val, new_val) -> fetchSelectedCharacter(PCCharacters.getSelectionModel()));
 
-        PCEquipment.getSelectionModel().selectedItemProperty().addListener(
-                (ov, old_val, new_val) -> fetchSelectedItem(PCEquipment.getSelectionModel()));
+//        PCEquipment.getSelectionModel().selectedItemProperty().addListener(
+//                (ov, old_val, new_val) -> fetchSelectedItem(PCEquipment.getSelectionModel()));
         PCName.textProperty().addListener((ov, old_val, new_val) -> setPCUnsaved());
         PCClass.textProperty().addListener((ov, old_val, new_val) -> setPCUnsaved());
         PCDescArea.textProperty().addListener((ov, old_val, new_val) -> setPCUnsaved());
@@ -270,6 +371,9 @@ public class PCController implements Initializable {
         PCSaveCharacter.setOnAction(ActionEvent -> savePC());
         PCSaveStat.setOnAction(ActionEvent -> saveStat());
         PCSaveTalent.setOnAction(ActionEvent -> saveTalent());
-
+        PCItemList.getSelectionModel().selectedItemProperty().addListener(
+                (ov, old_val, new_val) -> fetchSelectedItem(PCItemList.getSelectionModel())
+        );
+        PCSaveItem.setOnAction(ActionEvent -> saveItem());
     }
 }

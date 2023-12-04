@@ -7,6 +7,7 @@ public class ConfigUtils {
     //<editor-fold desc="CONSTANTS">
     public static final String systemLocations = "data/systems/";
     public static final String campaignLocations = "data/campaigns/";
+    public static final String equipmentLocations = "data/equipment/";
     public static final String suffix = ".json";
     public static final String configFile = "config.json";
 

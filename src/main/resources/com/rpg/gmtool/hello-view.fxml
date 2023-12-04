@@ -5,72 +5,168 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rpg.gmtool.controllers.PCController">
-
+<VBox prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rpg.gmtool.controllers.PCController">
 
 
     <MenuBar VBox.vgrow="NEVER">
         <Menu mnemonicParsing="false" text="Mode">
-            <MenuItem mnemonicParsing="false" text="THIS" />
+            <MenuItem mnemonicParsing="false" text="THIS"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-            <MenuItem mnemonicParsing="false" text="About" />
+            <MenuItem mnemonicParsing="false" text="About"/>
         </Menu>
     </MenuBar>
     <AnchorPane prefHeight="1080.0" prefWidth="1920.0" VBox.vgrow="ALWAYS">
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c9c9c9" height="288.0" layoutX="711.0" layoutY="22.0" stroke="BLACK" strokeType="INSIDE" width="627.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c9c9c9" height="288.0" layoutX="58.0" layoutY="22.0" stroke="BLACK" strokeType="INSIDE" width="636.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c9c9c9" height="288.0" layoutX="58.0" layoutY="325.0" stroke="BLACK" strokeType="INSIDE" width="636.0" />
-        <Label alignment="CENTER" layoutX="68.0" layoutY="166.0" style="&#10;" textAlignment="CENTER" AnchorPane.leftAnchor="68.0" AnchorPane.topAnchor="166.0">
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c9c9c9" height="531.0" layoutX="1365.0" layoutY="325.0"
+                   stroke="BLACK" strokeType="INSIDE" width="302.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c9c5c5" height="139.0" layoutX="1365.0" layoutY="570.0"
+                   stroke="BLACK" strokeType="INSIDE" width="302.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#867a7a" height="107.0" layoutX="1365.0" layoutY="470.0"
+                   stroke="BLACK" strokeType="INSIDE" width="302.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c9c9c9" height="288.0" layoutX="711.0" layoutY="325.0"
+                   stroke="BLACK" strokeType="INSIDE" width="627.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c9c9c9" height="288.0" layoutX="711.0" layoutY="22.0"
+                   stroke="BLACK" strokeType="INSIDE" width="627.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c9c9c9" height="288.0" layoutX="58.0" layoutY="22.0"
+                   stroke="BLACK" strokeType="INSIDE" width="636.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c9c9c9" height="288.0" layoutX="58.0" layoutY="325.0"
+                   stroke="BLACK" strokeType="INSIDE" width="636.0"/>
+        <Label alignment="CENTER" layoutX="68.0" layoutY="166.0" style="&#10;" textAlignment="CENTER"
+               AnchorPane.leftAnchor="68.0" AnchorPane.topAnchor="166.0">
             <font>
-                <Font name="Consolas" size="10.0" />
+                <Font name="Consolas" size="10.0"/>
             </font>
         </Label>
-        <TextArea fx:id="PCDescArea" layoutX="68.0" layoutY="153.0" prefHeight="148.0" prefWidth="550.0" />
-      <Text layoutX="69.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Character name" />
-      <TextField fx:id="PCName" layoutX="173.0" layoutY="57.0" prefHeight="26.0" prefWidth="444.0" />
-      <TextField fx:id="PCClass" layoutX="173.0" layoutY="99.0" prefHeight="26.0" prefWidth="444.0" />
-      <ListView fx:id="PCEquipment" layoutX="1356.0" layoutY="91.0" prefHeight="248.0" prefWidth="309.0" />
-      <Text layoutX="69.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Character class" />
-      <Text layoutX="158.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stats" />
-      <Text layoutX="1511.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Equipment" />
-      <ListView fx:id="PCCharacters" layoutX="1705.0" layoutY="57.0" prefHeight="736.0" prefWidth="176.0" />
-      <Text layoutX="1705.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Characters" />
-      <Button fx:id="PCSaveCharacter" layoutX="1276.0" layoutY="412.0" prefHeight="26.0" prefWidth="176.0" text="Save character" />
-      <Text layoutX="205.0" layoutY="703.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
-      <TextArea fx:id="PCEquipmentDescription" layoutX="205.0" layoutY="722.0" prefHeight="346.0" prefWidth="1348.0" />
-      <Text layoutX="733.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Talents" />
-      <TextField fx:id="PCInputStatValue" layoutX="83.0" layoutY="469.0" prefHeight="26.0" prefWidth="150.0" />
-      <Button fx:id="PCSaveStat" layoutX="82.0" layoutY="540.0" mnemonicParsing="false" text="Save stat" />
-      <Button fx:id="PCRemoveStat" layoutX="173.0" layoutY="540.0" mnemonicParsing="false" text="Remove stat" />
-      <ComboBox fx:id="PCAvailableStatList" layoutX="83.0" layoutY="399.0" prefWidth="150.0" />
-      <Text layoutX="82.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select statistic" />
-      <Text layoutX="91.0" layoutY="459.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Value" />
-      <TableView fx:id="PCStats" layoutX="409.0" layoutY="345.0" prefHeight="200.0" prefWidth="200.0">
-        <columns>
-          <TableColumn fx:id="PCStatName" prefWidth="138.0" text="Stat" />
-          <TableColumn fx:id="PCStatValue" prefWidth="61.0" text="Value" />
-        </columns>
-      </TableView>
-      <Text fx:id="PCUnsaved" layoutX="56.0" layoutY="645.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="288.16100311279297" />
-      <Text layoutX="68.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
-      <Text layoutX="143.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informations" />
-      <TableView fx:id="PCTalents" layoutX="960.0" layoutY="53.0" prefHeight="200.0" prefWidth="340.0">
-         <columns>
-            <TableColumn fx:id="PCTalentName" prefWidth="138.0" text="Ability" />
-            <TableColumn fx:id="PCTalentStat" minWidth="0.0" prefWidth="53.0" text="Stat" />
-            <TableColumn fx:id="PCTalentProficiency" prefWidth="151.0" text="Proficiency" />
-         </columns>
-      </TableView>
-      <TextField fx:id="PCTalentNameInput" layoutX="733.0" layoutY="78.0" prefHeight="26.0" prefWidth="150.0" />
-      <ComboBox fx:id="PCTalentStatInput" layoutX="733.0" layoutY="140.0" prefWidth="150.0" />
-      <ComboBox fx:id="PCTalentProficiencyInput" layoutX="733.0" layoutY="202.0" prefWidth="150.0" />
-      <Text layoutX="733.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Talent name" />
-      <Text layoutX="733.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistic" />
-      <Text layoutX="733.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Proficiency" />
-      <Button fx:id="PCSaveTalent" layoutX="730.0" layoutY="261.0" mnemonicParsing="false" text="Save talent" />
-      <Button fx:id="PCRemoveStat1" layoutX="832.0" layoutY="261.0" mnemonicParsing="false" text="Remove talent" />
+        <TextArea fx:id="PCDescArea" layoutX="68.0" layoutY="153.0" prefHeight="148.0" prefWidth="600.0"/>
+        <Text layoutX="69.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Character name"/>
+        <TextField fx:id="PCName" layoutX="173.0" layoutY="57.0" prefHeight="26.0" prefWidth="496.0"/>
+        <TextField fx:id="PCClass" layoutX="173.0" layoutY="99.0" prefHeight="26.0" prefWidth="496.0"/>
+        <Text layoutX="69.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Character class"/>
+        <Text layoutX="158.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stats"/>
+        <ListView fx:id="PCCharacters" layoutX="1705.0" layoutY="54.0" prefHeight="800.0" prefWidth="176.0"/>
+        <Text layoutX="1705.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Characters"/>
+        <Button fx:id="PCSaveCharacter" layoutX="999.0" layoutY="649.0" prefHeight="26.0" prefWidth="176.0"
+                text="Save character"/>
+        <Text layoutX="733.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Talents"/>
+        <TextField fx:id="PCInputStatValue" layoutX="83.0" layoutY="469.0" prefHeight="26.0" prefWidth="150.0"/>
+        <Button fx:id="PCSaveStat" layoutX="82.0" layoutY="540.0" mnemonicParsing="false" text="Save stat"/>
+        <Button fx:id="PCRemoveStat" layoutX="173.0" layoutY="540.0" mnemonicParsing="false" text="Remove stat"/>
+        <ComboBox fx:id="PCAvailableStatList" layoutX="83.0" layoutY="399.0" prefWidth="150.0"/>
+        <Text layoutX="82.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select statistic"/>
+        <Text layoutX="91.0" layoutY="459.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Value"/>
+        <TableView fx:id="PCStats" layoutX="328.0" layoutY="334.0" prefHeight="258.0" prefWidth="340.0">
+            <columns>
+                <TableColumn fx:id="PCStatName" prefWidth="270.0" text="Stat"/>
+                <TableColumn fx:id="PCStatValue" prefWidth="68.0" text="Value"/>
+            </columns>
+        </TableView>
+        <Text fx:id="PCUnsaved" layoutX="56.0" layoutY="645.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              wrappingWidth="288.16100311279297"/>
+        <Text layoutX="68.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description"/>
+        <Text layoutX="143.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informations"/>
+        <TableView fx:id="PCTalents" layoutX="960.0" layoutY="53.0" prefHeight="200.0" prefWidth="340.0">
+            <columns>
+                <TableColumn fx:id="PCTalentName" prefWidth="138.0" text="Talent"/>
+                <TableColumn fx:id="PCTalentStat" minWidth="0.0" prefWidth="53.0" text="Stat"/>
+                <TableColumn fx:id="PCTalentProficiency" prefWidth="151.0" text="Proficiency"/>
+            </columns>
+        </TableView>
+        <TextField fx:id="PCTalentNameInput" layoutX="733.0" layoutY="78.0" prefHeight="26.0" prefWidth="150.0"/>
+        <ComboBox fx:id="PCTalentStatInput" layoutX="733.0" layoutY="140.0" prefWidth="150.0"/>
+        <ComboBox fx:id="PCTalentProficiencyInput" layoutX="733.0" layoutY="202.0" prefWidth="150.0"/>
+        <Text layoutX="733.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Talent name"/>
+        <Text layoutX="733.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistic"/>
+        <Text layoutX="733.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Proficiency"/>
+        <Button fx:id="PCSaveTalent" layoutX="730.0" layoutY="261.0" mnemonicParsing="false" text="Save talent"/>
+        <Button fx:id="PCRemoveStat1" layoutX="832.0" layoutY="261.0" mnemonicParsing="false" text="Remove talent"/>
+        <Text layoutX="733.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Equipment"/>
+        <TableView fx:id="PCEquipment" layoutX="960.0" layoutY="340.0" prefHeight="258.0" prefWidth="340.0">
+            <columns>
+                <TableColumn fx:id="PCEquipmentName" prefWidth="224.0" text="Name"/>
+                <TableColumn fx:id="PCEquipmentQuantity" minWidth="0.0" prefWidth="115.0" text="Quantity"/>
+            </columns>
+        </TableView>
+        <Text layoutX="733.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Item"
+              wrappingWidth="28.586997985839844"/>
+        <ComboBox fx:id="PCItemList" layoutX="733.0" layoutY="399.0" prefHeight="26.0" prefWidth="150.0"/>
+        <Button fx:id="PCSaveItem" layoutX="735.0" layoutY="540.0" mnemonicParsing="false" text="Save item"/>
+        <Button fx:id="PCRemoveStat2" layoutX="822.0" layoutY="540.0" mnemonicParsing="false" text="Remove item"/>
+        <TextField fx:id="PCItemQuantityInput" layoutX="733.0" layoutY="469.0" prefHeight="26.0" prefWidth="150.0"/>
+        <Text layoutX="730.0" layoutY="459.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c9c9c9" height="288.0" layoutX="1365.0" layoutY="22.0"
+                   stroke="BLACK" strokeType="INSIDE" width="308.0"/>
+        <TextField fx:id="PCArmourHead" layoutX="1480.0" layoutY="36.0" prefHeight="51.0" prefWidth="73.0">
+            <font>
+                <Font size="23.0"/>
+            </font>
+        </TextField>
+        <TextField fx:id="PCArmourLeftArm" layoutX="1379.0" layoutY="128.0" prefHeight="51.0" prefWidth="73.0">
+            <font>
+                <Font size="23.0"/>
+            </font>
+        </TextField>
+        <TextField fx:id="PCArmourRightArm" layoutX="1583.0" layoutY="128.0" prefHeight="51.0" prefWidth="73.0">
+            <font>
+                <Font size="23.0"/>
+            </font>
+        </TextField>
+        <TextField fx:id="PCArmourCore" layoutX="1480.0" layoutY="154.0" prefHeight="51.0" prefWidth="73.0">
+            <font>
+                <Font size="23.0"/>
+            </font>
+        </TextField>
+        <TextField fx:id="PCArmourLeftLeg" layoutX="1379.0" layoutY="249.0" prefHeight="51.0" prefWidth="73.0">
+            <font>
+                <Font size="23.0"/>
+            </font>
+        </TextField>
+        <TextField fx:id="PCArmourRightLeg" layoutX="1583.0" layoutY="249.0" prefHeight="51.0" prefWidth="73.0">
+            <font>
+                <Font size="23.0"/>
+            </font>
+        </TextField>
+        <Text layoutX="1382.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Armour"/>
+        <Text layoutX="1382.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Item viewer"/>
 
-     </AnchorPane>
+
+        <Text layoutX="1382.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name"/>
+        <TextField fx:id="PCItemName" layoutX="1470.0" layoutY="364.0" prefHeight="26.0" prefWidth="150.0"/>
+
+        <Text layoutX="1385.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price"/>
+        <TextField fx:id="PCItemPrice" layoutX="1470.0" layoutY="399.0" prefHeight="26.0" prefWidth="150.0"/>
+
+        <Text layoutX="1383.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Availability"/>
+        <TextField fx:id="PCItemAvailability" layoutX="1470.0" layoutY="432.0" prefHeight="26.0" prefWidth="150.0"/>
+
+
+
+
+        <Text layoutX="1382.0" layoutY="491.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Armour"/>
+
+        <CheckBox fx:id="PCArmourWorn" layoutX="1449.0" layoutY="477.0" mnemonicParsing="false" text="Worn?"/>
+
+        <Text layoutX="1382.0" layoutY="519.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bodypart"/>
+        <TextField fx:id="PCArmourBodyPart" layoutX="1470.0" layoutY="501.0" prefHeight="26.0" prefWidth="150.0"/>
+
+        <Text layoutX="1382.0" layoutY="554.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Protection"/>
+        <TextField fx:id="PCArmourProtectionValue" layoutX="1470.0" layoutY="536.0" prefHeight="26.0"
+                   prefWidth="150.0"/>
+
+        <Text layoutX="1380.0" layoutY="597.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weapon"/>
+
+        <Text layoutX="1381.0" layoutY="618.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Damage"/>
+        <TextField fx:id="PCWeaponDamage" layoutX="1470.0" layoutY="600.0" prefHeight="26.0" prefWidth="150.0"/>
+
+        <Text layoutX="1381.0" layoutY="654.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Range"/>
+        <TextField fx:id="PCWeaponRange" layoutX="1470.0" layoutY="636.0" prefHeight="26.0" prefWidth="150.0"/>
+
+        <Text layoutX="1385.0" layoutY="689.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type"/>
+        <TextField fx:id="PCWeaponType" layoutX="1470.0" layoutY="671.0" prefHeight="26.0" prefWidth="150.0"/>
+
+        <Text layoutX="1381.0" layoutY="731.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description"/>
+        <TextArea fx:id="PCItemDescription" layoutX="1381.0" layoutY="735.0" prefHeight="107.0" prefWidth="274.0"/>
+
+    </AnchorPane>
 
 </VBox>

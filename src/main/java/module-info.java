@@ -16,6 +16,7 @@ module com.rpg.gmtool {
     exports com.rpg.gmtool.models.systems;
     exports com.rpg.gmtool.config;
     exports com.rpg.gmtool.controllers;
+    exports com.rpg.gmtool.exceptions;
     opens com.rpg.gmtool.controllers to javafx.fxml;
     exports com.rpg.gmtool.models.campaigns;
 
